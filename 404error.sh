@@ -14,7 +14,7 @@ grep '404' $logfile | awk '{print $1}' | cut -d'"' -f2 > $ipfile #making sure th
 declare -A ip_count #Associative array; is like a book where we will be anotating variables in this case $ip
 
 #count the ip and error encountered
-while read -r ip #assign each line (in this case the ips) a variable 
+while read -r ip #assign each line (in this case the ips) to a variable 
  do
 	if [[ -n "$ip" ]] #making sure the ip variable has been assign correctly and is not empty
 	  then
