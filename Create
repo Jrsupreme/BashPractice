@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Hey there traveler! Care to join me for a little chat?"
+
+sleep 2
