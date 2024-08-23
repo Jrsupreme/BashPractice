@@ -9,21 +9,21 @@
 logfile="web-server-access-logs.log"
 ipfile="ipfile.txt"
 
-grep '404' $logfile | awk '{print $1}' | cut -d'"' -f2 > $ipfile
+grep '404' $logfile | awk '{print $1}' | cut -d'"' -f2 > $ipfile #making sure the isolated ips are in a separate file
 
-declare -A ip_count
+declare -A ip_count #Associative array; is like a book where we will be anotating variables in this case $ip
 
 #count the ip and error encountered
-while read -r ip
+while read -r ip #assign each line (in this case the ips) to a variable 
  do
-	if [[ -n "$ip" ]]
+	if [[ -n "$ip" ]] #making sure the ip variable has been assign correctly and is not empty
 	  then
-	((ip_count["$ip"]++))
+	((ip_count["$ip"]++))  #this initiates a count with 1 for each ip if the ip has been counted already it updates the count to 2 and so on
 	fi
  done < "$ipfile"
 
 #post results
-for ip in "${!ip_count[@]}"
+for ip in "${!ip_count[@]}" #this recalls all ip variables within the array
  do
-  echo "$ip" : "${ip_count[$ip]}"
+  echo "$ip" : "${ip_count[$ip]}" #this posts the ips and the count separated by :
  done
