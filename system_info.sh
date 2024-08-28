@@ -59,7 +59,7 @@ read -p "insert url or ip address to connect to " address
   ping_output=$(ping -c 4 $address) #test for internet connection, lantency and paket loss.
   if echo "$ping_output" | grep -q "0% packet loss" #grep -q checks if for 0% packet loss and return a 0 code which will be useful for a if loop in the next line
    then
-   connection_time=$(echo "$ping_output" | grep 'time=' | awk -F 'time=' '{print $2}' | awk '{print $1;exit}') #grabs the main connection time and stores it in a variable.
+   connection_time=$(echo "$ping_output" | grep 'time=' | awk -F 'time=' '{print $2}' | awk '{print $1;exit}') #grabs the main connection time and stores it in a variable. Also I was just pushing and seeing how far I could push the awk command.
    echo "It took $connection_time ms to connect to $address and there was 0% packet loss."
   else
    echo "There was a problem connecting to $address"
@@ -67,7 +67,7 @@ read -p "insert url or ip address to connect to " address
 }
 
 #function for main menu
-systeminfo_main_menu() { #made the main menu a function cause I feel like I can use it for a disferent script in the future. Also i'd like to further my understanding of functions
+systeminfo_main_menu() { #made the main menu a function for different script in the future. Also to further my understanding of functions
 while true; do #This whike loop will keep the script running until existed
     echo "Please choose an option:"
     echo "1. IP Addresses"
