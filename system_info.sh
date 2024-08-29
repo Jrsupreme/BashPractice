@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#if it looks a little weird in terms of formatting here and there is because I coded most of this script on my phone.
+
 #create a menu with the following options:
   #1. ip_adresses #display private and public ip
   #2. current user #display current profile
