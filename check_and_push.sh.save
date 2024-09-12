@@ -1,0 +1,75 @@
+#!/bin/bash
+
+#check for git and gh install if necessary
+#check new files and changes in a specified dir
+#if there are new files or changes push to github repo
+#if there is not github repo does not exist prompt user to create one
+#if user says "yes" create github repo
+#push new files and changes to new github repo
+#if user says "no" exit the script with a warning
+
+#making variable local to not cause any issues with any potential global variables
+
+check_and_ins_req_cmd(){
+#making variable local to not cause any issues with any potential global variables
+local cmd1=$1
+local cmd2=$2
+
+if  [[ -z "$(which $cmd1)" ]] #check if git is isntalled
+then #install git if it is NOT install 
+  echo "git not isntalled. Installing..." 
+  sudo apt update && sudo apt install git -y
+  git --version
+else #if installed say installed
+ echo "git already installed"
+fi
+
+if [[ -z "$(which $cmd2)" ]] #check if gh cli is installed
+then #install gh cli, if gh cli is NOT installed
+  echo "Github CLI not installed installing"
+   type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y) #official github cli install code
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && sudo apt update \
+    && sudo apt install gh -y
+else #if installed say installed
+ echo "gh already installed"
+fi
+}
+
+check_and_ins_req_cmd "git" "gh" #running function with corresponding parameters.
+
+check_files_in_dir(){ #function to check for new or changed files takes directory as parameter
+
+directory=$1
+
+new_changed_files=$(find '$directory' -mtime -1 -ctime -1 -type f) #find any new or changed files withing specifed dir path and stores the output into variable
+
+if [[-z '$new_changed_files']] #checks if output is empty
+then
+ echo "No new files or changes have been made"
+ exit 0
+else
+ echo "New files or changes detected: $new_changed_files"
+fi
+}
+
+check_if_ghrepo_exist(){
+if git rev-parse --is-inside-work-tree > /dev/null 2>&1 #check if directory is associated with a repo if and outputs true if it is and false if it isn't. Deleting standard output and error output.
+then
+ echo "Repository found!"
+ return 0
+else
+ echo "Repository does NOT exist"
+ return 1
+fi
+}
+
+create_github_repo(){
+read -p "Would you like to create a github repo?(yes/no) " choice
+
+if [[ '$choice' = 'yes' ]]
+then
+ 
+}
