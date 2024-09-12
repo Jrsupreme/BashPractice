@@ -45,6 +45,12 @@ check_files_in_dir(){
 
 dir=$1
 
+ # Check if the directory exists, to prevent undesired output in case of the directory not existing.
+if [ ! -d "$directory" ]
+then
+ echo "Directory '$directory' does not exist. Exiting."
+ exit 1
+fi
 new_changed_files=$(find "$dir" -mtime -1 -ctime -1 -type f) #find any new or changed files withing specifed dir path and stores the output into variable
 
 if [ -z "$new_changed_files" ]
@@ -72,10 +78,10 @@ fi
 
 #function to create git hub repo
 create_github_repo(){
-read -p "Would you like to create a github repo?(yes/no) " choice #prompt user if they want to create a new repo
+read -p "GitHub repo does not exist, Would you like to create a github repo?(yes/no) " choice #prompt user if they want to create a new repo
 
 if [[ '$choice' = 'yes' ]]
- then                       #if yes prompt for visibility choice
+then                       #if yes prompt for visibility choice
   read -p "Would you like this repository to be 'public' or 'private': " visibility
   if [[ '$visibility' = 'public' ]]
   then
@@ -107,14 +113,13 @@ git push origin main
 
 #main script
 
-read -p "Provide directory path to check and push: " directory
-
-#check that the directory exist
-if [! -d "$directory" ] #if directory does not exist exit.
-then
- echo "Directory does not exist"
- exit 1
+ #check if directory exist.
+if [ -z "$1" ]
+ then
+ echo "directory does not exist. Exiting the script"
 fi
+
+directory=$1
 
 check_files_in_dir "$directory" #check if any new files were added or if any changes were done.
 
