@@ -103,7 +103,6 @@ echo "Pushing changes to GitHub..."
 git add .
 git commit -m "Detected new files or changes"
 git push origin main
-echo "Changes have been successfully pushed to GitHub."
 }
 
 #main script
