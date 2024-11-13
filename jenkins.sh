@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt update
 sudo apt install fontconfig openjdk-17-jre
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
